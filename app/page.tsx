@@ -1,107 +1,78 @@
-'use client';
+"use client"
 
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import Image from "next/image"
+import { motion } from "framer-motion"
+import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
 
-export default function ComingSoonPage() {
-  const calculateTimeLeft = () => {
-    const target = new Date("2025-08-01T00:00:00");
-    const now = new Date();
-    const difference = +target - +now;
-    let timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
 
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
-
-    return timeLeft;
-  };
-
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true); 
-    setTimeLeft(calculateTimeLeft());
-
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
+export default function Home() {
+ const router = useRouter()
+ function handleNavigate() {
+  router.push("/dashboard") // go to dashboard list
+}
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-white px-4">
-      <div className="text-center max-w-md w-full">
-        <motion.h1
-          className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2"
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-green-50 to-green-200 px-6">
+      <div className="w-full max-w-5xl flex flex-col items-center text-center gap-12">
+
+        {/* Logo */}
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          Divina is currently working hard on this page!
-        </motion.h1>
-
-        <motion.p
-          className="text-gray-500 mb-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
-        >
-          Website currently under maintenance
-        </motion.p>
-
-        <motion.div
-          className="flex justify-center mb-6"
-          initial={{ scale: 0.95 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 0.5 }}
-        >
           <Image
-            src="/images/comming-soon.png"
-            alt="Maintenance"
-            width={300}
-            height={300}
-            className="w-full max-w-xs"
+            src="/images/header-logo.png"
+            alt="AIG APP Logo"
+            width={180}
+            height={110}
             priority
+            className="object-contain"
           />
         </motion.div>
 
-        {isClient && (
-          <div className="flex justify-center gap-4 text-lg font-semibold text-gray-800 mb-6">
-            <div className="text-center">
-              <div className="text-3xl">{timeLeft.days}</div>
-              <div className="text-sm text-gray-500">Days</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl">{timeLeft.hours}</div>
-              <div className="text-sm text-gray-500">Hours</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl">{timeLeft.minutes}</div>
-              <div className="text-sm text-gray-500">Minutes</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl">{timeLeft.seconds}</div>
-              <div className="text-sm text-gray-500">Seconds</div>
-            </div>
-          </div>
-        )}
-
-        <Link
-          href="https://saascraft.studio/"
-          className="inline-block bg-gray-900 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition"
+        {/* Heading */}
+        <motion.div
+          className="space-y-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
         >
-         Owned by SaaScraft Studio (India) Pvt. Ltd.
-        </Link>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white">
+            Welcome to{" "}
+            <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+              Telengana Dental User 
+            </span>
+          </h1>
+
+          <p className="max-w-xl mx-auto text-lg text-zinc-600 dark:text-zinc-400">
+            Manage profile, application status, and renewal effortlessly — all in one place.
+          </p>
+        </motion.div>
+
+        {/* Buttons */}
+        <motion.div
+          className="flex flex-col sm:flex-row gap-4 mt-2"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <Button
+            size="lg"
+            className="rounded-full px-8 bg-green-800 hover:bg-sky-900"
+          >
+            <a href="/login">Login</a>
+          </Button>
+
+          <Button
+            onClick={handleNavigate}
+            variant="outline"
+            size="lg"
+            className="rounded-full px-8"
+          >
+            Get Started
+          </Button>
+        </motion.div>
+
       </div>
-    </main>
-  );
+    </div>
+  )
 }
