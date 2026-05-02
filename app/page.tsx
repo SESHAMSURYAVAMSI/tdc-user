@@ -23,7 +23,7 @@ export default function Home() {
         >
           <Image
             src="/images/header-logo.png"
-            alt="AIG APP Logo"
+            alt="TDC User Logo"
             width={180}
             height={110}
             priority
